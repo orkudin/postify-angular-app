@@ -1,0 +1,142 @@
+<!-- <div class="container bootstrap snippets bootdey" id="main-container">
+    <div *ngFor="let posts_with_user of posts_with_users" class="col-md-6">
+      <div class="widget widget-blog">
+        <div class="mod-buttons">
+        </div>
+        <div class="card-body">
+          <div class="float-right btn-group btn-group-sm"></div>
+        </div> 
+        <div class="widget-blog-content">
+          <div *ngIf="this.oauthService.getIdentityClaims()['name'] == posts_with_user?.username">
+            <div class="modal-body">
+              <p>Are you sure you want to delete post {{ posts_with_user?.postTitle }}?</p>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  No
+                </button>
+                <button
+                  (click)="onDeletePost(posts_with_user.postId!)"
+                  class="btn btn-danger"
+                  data-dismiss="modal"
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+          <p>{{this.oauthService.getIdentityClaims()['sub']}}</p>
+          <p>
+            {{ posts_with_user?.username }}
+          </p>
+          <h5>{{ posts_with_user?.postTitle }}</h5>
+          <p>
+            {{ posts_with_user?.postDescription }}
+          </p>
+          <p>
+            {{ posts_with_user?.postCreatedAt }}
+          </p>
+          <p>
+            {{ posts_with_user?.userId }}
+          </p>
+        </div>
+        <div class="widget-blog-cover">
+          <img src="{{ posts_with_user?.urlImage }}" alt="" />
+        </div>
+        <div class="widget-blog-author">
+          <div class="widget-blog-author-image">
+            <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" />
+          </div>
+          <div class="widget-blog-author-info">
+            <h5 class="m-t-0 m-b-1">Name</h5>
+          
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div> -->
+
+
+<!-- 
+<div *ngFor="let posts_with_user of posts_with_users" class="col-md-6">
+    <div class="post">
+      <div *ngIf="this.oauthService.getIdentityClaims()['name'] == posts_with_user?.username">
+        <div class="modal-body">
+          <p>Are you sure you want to delete post {{ posts_with_user?.postTitle }}?</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              No
+            </button>
+            <button
+              (click)="onDeletePost(posts_with_user.postId!)"
+              class="btn btn-danger"
+              data-dismiss="modal"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+        </div>
+      <div class="post-header">
+          <img class="user-profile-img"  [src]="posts_with_user.userProfileImg" alt="User Profile Image">
+          <span class="username">{{posts_with_user.username}}</span>
+      </div>
+      <div class="post-content">
+          <h2 class="post-title">{{posts_with_user.postTitle}}</h2>
+          <p class="post-description">{{posts_with_user.postDescription}}</p>
+          <img class="post-image"  [src]="posts_with_user.urlImage" alt="Post Image">
+      </div>
+      <div class="post-footer">
+          <span class="post-created-at">{{posts_with_user.postCreatedAt}}</span>
+      </div>
+  </div>
+</div> -->
+
+<div *ngFor="let posts_with_user of posts_with_users" class="col-md-6">
+  <div class="post">
+    <!-- Your deletion modal here -->
+    
+    <div *ngIf="this.oauthService.getIdentityClaims()['preferred_username'] == posts_with_user?.username || roleAdmin">
+      <div class="modal-body">
+        <p>Are you sure you want to delete post {{ posts_with_user?.postTitle }}?</p>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            No
+          </button>
+          <button
+            (click)="onDeletePost(posts_with_user.postId!)"
+            class="btn btn-danger"
+            data-dismiss="modal"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-header">
+        <img class="user-profile-img" [src]="posts_with_user.userProfileImg" alt="User Profile Image">
+        <span class="username">{{posts_with_user.username}}</span>
+    </div>
+
+    <div class="post-content">
+        <h2 class="post-title"  (click)="onPostTitleClick(posts_with_user)">{{posts_with_user.postTitle}}</h2>
+        <p class="post-description">{{posts_with_user.postDescription}}</p>
+        <img class="post-image" [src]="posts_with_user.urlImage" alt="Post Image">
+    </div>
+
+    <div class="post-footer">
+        <span class="post-created-at">{{posts_with_user.postCreatedAt}}</span>
+        
+        <!-- Vote and Minus Buttons -->
+        <button (click)="onVote(posts_with_user.postId, this.oauthService.getIdentityClaims()['sub'])" class="btn btn-success">Vote</button>
+          <button (click)="onMinus(posts_with_user.postId, this.oauthService.getIdentityClaims()['sub'])" class="btn btn-danger">Minus</button>
+        
+        <!-- Display vote count -->
+        <span class="vote-count">{{ posts_with_user.postVotes }}</span>
+        
+        <!-- Add more footer elements as needed -->
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="col-md-6">
+    <div class="post">
+      <!-- Your deletion modal here -->
+      
+      <div *ngIf="this.oauthService.getIdentityClaims()['name'] == posts_with_user?.username">
+        <div class="modal-body">
+          <p>Are you sure you want to delete post {{ posts_with_user.postTitle }}?</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              No
+            </button>
+            <button
+              (click)="onDeletePost(posts_with_user.postId!)"
+              class="btn btn-danger"
+              data-dismiss="modal"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="post-header">
+          <img class="user-profile-img" [src]="posts_with_user.userProfileImg" alt="User Profile Image">
+          <span class="username">{{posts_with_user.username}}</span>
+      </div>
+  
+      <div class="post-content">
+          <h2 class="post-title">{{posts_with_user.postTitle}}</h2>
+          <p class="post-description">{{posts_with_user.postDescription}}</p>
+          <img class="post-image" [src]="posts_with_user.urlImage" alt="Post Image">
+      </div>
+  
+      <div class="post-footer">
+          <span class="post-created-at">{{posts_with_user.postCreatedAt}}</span>
+          
+          <!-- Vote and Minus Buttons -->
+          <!-- <button (click)="onVote(posts_with_user.postId)" class="btn btn-success">Vote</button>
+            <button (click)="onMinus(posts_with_user.postId)" class="btn btn-danger">Minus</button> -->
+            <button (click)="onVote(posts_with_user.postId, this.oauthService.getIdentityClaims()['sub'])" class="btn btn-success">Vote</button>
+            <button (click)="onMinus(posts_with_user.postId, this.oauthService.getIdentityClaims()['sub'])" class="btn btn-danger">Minus</button>
+          <!-- Display vote count -->
+          <span class="vote-count">{{ posts_with_user.postVotes }}</span>
+          
+          <!-- Add more footer elements as needed -->
+      </div>
+  
+<!-- Comments Section -->
+    <div class="comments-section">
+      <h3 class="section-title">Comments</h3>
+  
+      <!-- Comment Form -->
+      <!-- <div class="comment-form">
+        <textarea placeholder="Add a comment..." [(ngModel)]="newComment"></textarea>
+        <button (click)="addComment()">Add Comment</button>
+      </div> -->
+      <form #addForm="ngForm" (ngSubmit)="addComment(addForm)">
+        <div class="form-group">
+          <label for="name">Post Title</label>
+          <input
+            type="text"
+            ngModel
+            name="commentText"
+            class="form-control"
+            id="title"
+            placeholder="Title"
+            required
+          />
+        </div>
+        <div class="modal-footer">
+          <button
+            [disabled]="addForm.invalid"
+            type="submit"
+            class="btn btn-primary"
+          >
+            Add comment
+          </button>
+        </div>
+      </form>
+
+      <!-- Comment List -->
+      <div class="comment-list">
+        <div *ngFor="let commenta of comments" class="comment">
+          <div class="comment-header">
+            <span class="comment-author">{{ commenta.userId }}</span>
+            <span class="comment-date">{{ commenta.commentWrittenAt| date: 'medium' }}</span>
+          </div>
+          <p class="comment-text">{{ commenta.commentText }}</p>
+        </div>
+      </div>
+    </div>
+ 
+
+    </div>
+  </div>
+  
+  
+    
